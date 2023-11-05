@@ -2,7 +2,7 @@ import { RootState } from "@/app/components/types/types";
 import React from "react";
 import { useSelector } from "react-redux";
 
-const CorrectAnswersBarPercentage = () => {
+const CorrectAnswersBarPercentage = ({}) => {
   // Use useSelector to access data from the Redux store
   const correctQuestions = useSelector(
     (state: RootState) => state.questions.correctQuestions

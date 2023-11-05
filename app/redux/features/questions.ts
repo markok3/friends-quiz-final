@@ -3,6 +3,8 @@ import { Question, Answer, QuestionsState } from "@/app/components/types/types";
 
 // Initial state for the questions slice.
 const initialState: QuestionsState = {
+  userName: "",
+  quizId: "",
   questionsCount: 0,
   currentQuestion: 0,
   correctQuestions: 0,
@@ -16,6 +18,9 @@ const questionsSlice = createSlice({
   initialState,
   reducers: {
     // Add reducer actions here to update the questions state.
+    setUserName: (state, action: PayloadAction<string>) => {
+      state.userName = action.payload;
+    },
     setQuestions: (state, action: PayloadAction<Question[]>) => {
       state.questionsCount = action.payload.length;
       state.questions = action.payload;
@@ -29,6 +34,9 @@ const questionsSlice = createSlice({
     incrementIncorrectQuestions: (state) => {
       state.incorrectQuestions++;
     },
+    setQuizId: (state, action: PayloadAction<string>) => {
+      state.quizId = action.payload;
+    },
   },
 });
 
@@ -38,6 +46,8 @@ export const {
   setCurrentQuestion,
   incrementCorrectQuestions,
   incrementIncorrectQuestions,
+  setUserName,
+  setQuizId,
 } = questionsSlice.actions;
 
 // Export the reducer function.

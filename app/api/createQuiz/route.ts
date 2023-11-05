@@ -22,6 +22,9 @@ export async function POST(request: Request) {
           },
         })),
       },
+      attempts: {
+        create: [],
+      },
     },
     include: {
       questions: {

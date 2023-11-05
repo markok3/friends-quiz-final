@@ -9,6 +9,7 @@ import questionsData from "@/app/data/questionsData";
 import { v4 as uuidv4 } from "uuid";
 import { parse } from "path";
 import { AiOutlinePlus } from "react-icons/ai";
+import { setItem } from "@/app/localStorage/localStorage";
 
 interface QuizProps {
   name: string;
@@ -33,6 +34,7 @@ const Quiz: React.FC<QuizProps> = ({ name }) => {
       loading: "Saving...",
       success: (res) => {
         setQuizId(res.data.id);
+        setItem("quizId", res.data.id);
         return "Quiz saved successfully";
       },
       error: "Failed to save quiz",

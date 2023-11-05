@@ -19,6 +19,7 @@ export async function GET(request: any) {
           answers: true, // Include answers for each question
         },
       },
+      attempts: true, // Include attempts in the response
     },
   });
 

@@ -8,11 +8,11 @@ interface PlayQuizProps {
   };
 }
 
-const PlayQuiz: React.FC<PlayQuizProps> = ({ params }) => {
+const PlayQuiz: React.FC<PlayQuizProps> = () => {
   return (
     <div className=" w-full h-full flex items-center justify-center">
       <Toaster />
-      <PlayQuizClient quizId={params.id} />
+      <PlayQuizClient />
     </div>
   );
 };

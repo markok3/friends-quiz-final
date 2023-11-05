@@ -17,9 +17,9 @@ model Quiz{
   name      String
   creatorName String
   questions Question[]
-
+  attempts Attempt[]
 }
-
+ 
 model Question{
   id        String    @id @default(auto()) @map("_id") @db.ObjectId
 
@@ -35,7 +35,16 @@ model Answer{
 
   text    String
   isCorrect Boolean
-  question  Question  @relation(fields: [questionId], references: [id])
+  question  Question  @relation(fields: [questionId], references: [id], onDelete: Cascade)
   questionId String @db.ObjectId  
+}
+
+model Attempt {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  userName String
+  timestamp DateTime @default(now())
+  score     Int
+  quiz      Quiz     @relation(fields: [quizId], references: [id], onDelete: Cascade)
+  quizId    String   @db.ObjectId
 }
 
