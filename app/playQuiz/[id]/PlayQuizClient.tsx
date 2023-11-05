@@ -35,7 +35,7 @@ const PlayQuizClient: React.FC<PlayQuizClientProps> = () => {
   const [quizId, setQuizId] = useState<string>("");
   const [hasError, setHasError] = useState<boolean>();
   const [userAlreadyGuessed, setUserAlreadyGuessed] = useState(false);
-  const [quizAttemptFound, setQuizAttemptFound] = useState(null);
+  const [quizAttemptFound, setQuizAttemptFound] = useState<any>(null);
   const params = useParams();
 
   const questionsCount = useSelector(
@@ -130,10 +130,11 @@ const PlayQuizClient: React.FC<PlayQuizClientProps> = () => {
     );
   }
 
-  if (userAlreadyGuessed) {
+  if (quizAttemptFound) {
     return (
       <div className="">
         <EndGame
+          // eslint-disable-next-line
           quizId={quizAttemptFound.quizId}
           userName={quizAttemptFound.userName}
           questionsCount={quizAttemptFound.questionsCount}
