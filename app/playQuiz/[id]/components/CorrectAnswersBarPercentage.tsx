@@ -2,14 +2,29 @@ import { RootState } from "@/app/components/types/types";
 import React from "react";
 import { useSelector } from "react-redux";
 
-const CorrectAnswersBarPercentage = ({}) => {
+interface CorrectAnswersBarPercentageProps {
+  correctQuestions?: number;
+  questionsCount?: number;
+}
+
+const CorrectAnswersBarPercentage: React.FC<
+  CorrectAnswersBarPercentageProps
+> = ({ correctQuestions, questionsCount }) => {
   // Use useSelector to access data from the Redux store
-  const correctQuestions = useSelector(
+  let correctQuestionsFromStore = useSelector(
     (state: RootState) => state.questions.correctQuestions
   );
-  const questionsCount = useSelector(
+  let questionsCountFromStore = useSelector(
     (state: RootState) => state.questions.questionsCount
   );
+
+  if (correctQuestions === undefined) {
+    correctQuestions = correctQuestionsFromStore;
+  }
+
+  if (questionsCount === undefined) {
+    questionsCount = questionsCountFromStore;
+  }
 
   // Calculate the percentage of correct answers
   const percentage = (correctQuestions / questionsCount) * 100;

@@ -9,6 +9,7 @@ import Leaderboard from "./Leaderboard";
 import { getItem, setItem } from "@/app/localStorage/localStorage";
 import { get } from "http";
 import toast from "react-hot-toast";
+import { setQuestions } from "@/app/redux/features/questions";
 
 type EndGameProps = {
   userName: string;
@@ -33,13 +34,13 @@ const EndGame: React.FC<EndGameProps> = ({
     try {
       setLoading(true);
       const res = await axios.get(`/api/getQuiz?id=${quizId}`);
-      console.log(res.data);
       if (res.data === null) {
         router.push("/");
         toast.error("Quiz not found");
       }
       if (res.data.attempts === undefined) return console.log("undefined");
       setAttempts(res.data.attempts);
+      questionsCount = res.data.questions.length;
     } catch (err) {
       console.log(err);
     } finally {
@@ -54,6 +55,7 @@ const EndGame: React.FC<EndGameProps> = ({
       score: correctQuestions,
     };
 
+    // GET ATTEMPT
     if (userAlreadyGuessed) {
       getQuizById(quizId);
       return;
@@ -65,7 +67,6 @@ const EndGame: React.FC<EndGameProps> = ({
         .post("/api/addAttemptToQuiz", { attempt, quizId })
         .then((res) => {
           setAttempts(res.data.attempts);
-          // setToLocalStorage
           let quizItems = JSON.parse(getItem("quizesAttempts") || "[]");
 
           const newQuizItem = {
@@ -78,14 +79,6 @@ const EndGame: React.FC<EndGameProps> = ({
           quizItems.push(newQuizItem);
 
           setItem("quizesAttempts", JSON.stringify(quizItems));
-
-          console.log({
-            quizId: quizId,
-            userName,
-            correctQuestions,
-            questionsCount,
-          });
-          console.log(res.data.attempts);
         })
         .catch((err) => {
           console.log(err);
@@ -97,7 +90,7 @@ const EndGame: React.FC<EndGameProps> = ({
   }, []);
 
   return (
-    <div className="flex flex-col items-center justify-center gap-8 px-4">
+    <div className="flex flex-col items-center justify-center gap-8 px-4 mb-4">
       <div className="flex flex-col text-center bg-[#202026] rounded-xl px-16 py-4 mt-4 shadow-lg">
         <h1 className="text-white text-5xl font-black my-4">
           Create a quiz yourself
@@ -113,7 +106,10 @@ const EndGame: React.FC<EndGameProps> = ({
           Create Quiz
         </a>
       </div>
-      <CorrectAnswersBarPercentage />
+      <CorrectAnswersBarPercentage
+        correctQuestions={correctQuestions}
+        questionsCount={questionsCount}
+      />
       <Leaderboard attempts={attempts} loading={loading} />
     </div>
   );

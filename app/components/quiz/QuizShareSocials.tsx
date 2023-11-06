@@ -7,12 +7,15 @@ import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import {
   FacebookIcon,
+  FacebookMessengerShareButton,
+  FacebookMessengerIcon,
   FacebookShareButton,
   TwitterIcon,
   TwitterShareButton,
   WhatsappIcon,
   WhatsappShareButton,
 } from "react-share";
+import { ShareButton } from "./question/shareButtons/ShareButton";
 
 interface QuizShareSocialsProps {
   quizId: string;
@@ -23,14 +26,11 @@ const QuizShareSocials: React.FC<QuizShareSocialsProps> = ({ quizId }) => {
   const [attemptsLoading, setAttemptsLoading] = useState(false);
   const [attempts, setAttempts] = useState<Attempt[]>([]);
   const router = useRouter();
-  // const shareUrl = new URL(`playQuiz?id=${quizId}`, window.location.href).href;
 
   const getQuizById = async (quizId: string) => {
-    console.log(quizId);
     try {
       setAttemptsLoading(true);
       const res = await axios.get(`/api/getQuiz?id=${quizId}`);
-      console.log(res.data);
       if (res.data.attempts === undefined) return console.log("undefined");
       setAttempts(res.data.attempts);
     } catch (err) {
@@ -87,18 +87,37 @@ const QuizShareSocials: React.FC<QuizShareSocialsProps> = ({ quizId }) => {
         Copy Link to Clipboard
       </button>
 
-      <div className="mt-8">
-        <h2>Share your quiz on: </h2>
-        <div className="flex justify-center gap-10 ">
-          <FacebookShareButton url={shareUrl}>
-            <FacebookIcon xHeight={40} round={false} className="rounded-xl" />
-          </FacebookShareButton>
-          <WhatsappShareButton url={shareUrl}>
-            <WhatsappIcon xHeight={40} round={false} className="rounded-xl" />
-          </WhatsappShareButton>
-          <TwitterShareButton url={shareUrl}>
-            <TwitterIcon xHeight={40} round={false} className="rounded-xl" />
-          </TwitterShareButton>
+      <div className="mt-8 w-full">
+        <h2 className="text-xl mb-2">Share your quiz on: </h2>
+        <div className="grid grid-cols-2 gap-4 w-full">
+          <ShareButton
+            ShareButtonComponent={FacebookShareButton}
+            IconComponent={FacebookIcon}
+            url={shareUrl}
+            text="Facebook"
+            bgColor="#3b5998"
+          />
+          <ShareButton
+            ShareButtonComponent={WhatsappShareButton}
+            IconComponent={WhatsappIcon}
+            url={shareUrl}
+            text="Whatsapp"
+            bgColor="#25d366"
+          />
+          <ShareButton
+            ShareButtonComponent={TwitterShareButton}
+            IconComponent={TwitterIcon}
+            url={shareUrl}
+            text="Twitter"
+            bgColor="#00aced"
+          />
+          <ShareButton
+            ShareButtonComponent={FacebookMessengerShareButton}
+            IconComponent={FacebookMessengerIcon}
+            url={shareUrl}
+            text="Messenger"
+            bgColor="#2196f3"
+          />
         </div>
       </div>
 
