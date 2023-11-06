@@ -61,7 +61,11 @@ const HomePage = () => {
   }
 
   if (quizId !== null) {
-    return <QuizShareSocials quizId={quizId} />;
+    return (
+      <div className="flex items-center justify-center w-full h-full">
+        <QuizShareSocials quizId={quizId} />
+      </div>
+    );
   }
 
   return (

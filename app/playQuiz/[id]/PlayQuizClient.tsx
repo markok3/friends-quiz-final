@@ -79,9 +79,6 @@ const PlayQuizClient: React.FC<PlayQuizClientProps> = () => {
 
       let quizesAttempts = JSON.parse(getItem("quizesAttempts") || "[]");
 
-      console.log(quizesAttempts);
-      console.log(quizId);
-
       if (quizesAttempts === null || quizesAttempts === undefined) {
         return;
       }
@@ -89,16 +86,12 @@ const PlayQuizClient: React.FC<PlayQuizClientProps> = () => {
         (quizAttempt: any) => quizAttempt.quizId === quizId
       );
 
-      console.log(foundAttempt);
-
       if (foundAttempt) {
         setQuizAttemptFound(foundAttempt);
         setUserAlreadyGuessed(true);
       }
       setQuizLoaded(true);
-      console.log(foundAttempt);
     }
-    console.log("se pusta");
   }, []);
 
   const getQuizById = async (quizId: string) => {
